@@ -20,7 +20,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
       - name: Run Snyk Code Test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk code test --sarif-file-output=snyk.sarif
 
       - name: Upload SARIF file
