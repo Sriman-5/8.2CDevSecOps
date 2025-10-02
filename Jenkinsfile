@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { docker { image 'node:18' } }   // safer: guaranteed Node.js & npm
 
     stages {
         stage('Checkout') {
@@ -10,28 +10,32 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm ci || npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Allows pipeline to continue despite test failures
-                sh 'npm test || true'
+                // Capture test output into test.log
+                sh 'npm test > test.log 2>&1 || true'
+                archiveArtifacts artifacts: 'test.log', allowEmptyArchive: true
             }
         }
 
         stage('Generate Coverage Report') {
             steps {
-                // Ensure coverage report exists
-                sh 'npm run coverage || true'
+                // Run coverage if defined, don’t fail pipeline
+                sh 'npm run coverage > coverage.log 2>&1 || true'
+                archiveArtifacts artifacts: 'coverage.log,coverage/**', allowEmptyArchive: true
             }
         }
 
         stage('NPM Audit (Security Scan)') {
             steps {
-                // This will show known CVEs in the output
-                sh 'npm audit || true'
+                // Save audit output into files
+                sh 'npm audit --json > audit.json || true'
+                sh 'npm audit > audit.log 2>&1 || true'
+                archiveArtifacts artifacts: 'audit.log,audit.json', allowEmptyArchive: true
             }
         }
     }
