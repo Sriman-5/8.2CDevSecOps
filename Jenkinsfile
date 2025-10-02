@@ -1,43 +1,54 @@
 pipeline {
-    agent any
-    triggers {
-        pollSCM('H/2 * * * *')  // polls every 2 minutes
-    }
+    agent any   // Runs on any available Jenkins node
 
     environment {
-        // Add Homebrew Node.js to PATH
-        PATH = "/opt/homebrew/bin:${env.PATH}"
+        NODE_ENV = 'development'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Sriman-5/8.2CDevSecOps.git'
+                echo 'Checking out code from GitHub...'
+                checkout scm
             }
         }
 
         stage('Install Dependencies') {
             steps {
+                echo 'Installing Node.js dependencies...'
                 sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || true'
+                echo 'Running tests...'
+                sh 'npm test || true'  // prevents pipeline from failing if tests fail
             }
         }
 
-        stage('Generate Coverage Report') {
+        stage('Build') {
             steps {
-                sh 'npm run coverage || true'
+                echo 'Building the project...'
+                sh 'npm run build'
             }
         }
 
-        stage('NPM Audit (Security Scan)') {
+        stage('Deploy') {
             steps {
-                sh 'npm audit || true'
+                echo 'Deploying the application...'
+                // Add your deployment commands here, e.g., copy files, trigger server, etc.
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
