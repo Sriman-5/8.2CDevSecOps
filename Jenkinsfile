@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    // Use NodeJS plugin to manage Node and npm
+   
     tools {
         nodejs "NodeJS_20" // <-- Make sure this matches the name of your NodeJS installation in Jenkins Global Tool Configuration
     }
