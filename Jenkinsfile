@@ -1,54 +1,40 @@
 pipeline {
-    agent any   // Runs on any available Jenkins node
+    agent any
 
     environment {
-        NODE_ENV = 'development'
+        // Add Homebrew Node.js to PATH
+        PATH = "/opt/homebrew/bin:${env.PATH}"
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Checking out code from GitHub...'
-                checkout scm
+                git branch: 'main', url: 'https://github.com/Paarthipa/8.2CDevSecOps.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Installing Node.js dependencies...'
                 sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
-                sh 'npm test || true'  // prevents pipeline from failing if tests fail
+                sh 'npm test || true'
             }
         }
 
-        stage('Build') {
+        stage('Generate Coverage Report') {
             steps {
-                echo 'Building the project...'
-                sh 'npm run build'
+                sh 'npm run coverage || true'
             }
         }
 
-        stage('Deploy') {
+        stage('NPM Audit (Security Scan)') {
             steps {
-                echo 'Deploying the application...'
-                // Add your deployment commands here, e.g., copy files, trigger server, etc.
+                sh 'npm audit || true'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
         }
     }
 }
