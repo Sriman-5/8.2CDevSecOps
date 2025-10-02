@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers {
+        pollSCM('H/2 * * * *')  // polls every 2 minutes
+    }
 
     environment {
         // Add Homebrew Node.js to PATH
