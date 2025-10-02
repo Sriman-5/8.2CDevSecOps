@@ -3,7 +3,7 @@ pipeline {
 
     // Use NodeJS plugin to manage Node and npm
     tools {
-        nodejs "NodeJS_18" // <-- Make sure this matches the name of your NodeJS installation in Jenkins Global Tool Configuration
+        nodejs "NodeJS_20" // <-- Make sure this matches the name of your NodeJS installation in Jenkins Global Tool Configuration
     }
 
     stages {
