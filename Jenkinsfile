@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Paarthipa/8.2CDevSecOps.git'
+                git branch: 'main', url: 'https://github.com/Sriman-5/8.2CDevSecOps.git'
             }
         }
 
