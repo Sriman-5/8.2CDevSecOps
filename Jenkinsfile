@@ -3,7 +3,7 @@ pipeline {
 
    
     tools {
-        nodejs "NodeJS_20" // <-- Make sure this matches the name of your NodeJS installation in Jenkins Global Tool Configuration
+        nodejs "NodeJS_20" 
     }
 
     stages {
