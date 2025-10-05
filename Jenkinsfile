@@ -3,7 +3,7 @@ pipeline {
 
    
     tools {
-        nodejs "NodeJS_20"//git 
+        nodejs "NodeJS_20"
     }
 
     stages {
