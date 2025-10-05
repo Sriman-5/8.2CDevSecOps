@@ -27,7 +27,7 @@ pipeline {
 
         stage('Generate Coverage Report') {
             steps {
-                sh 'npm run coverage || true'  /// true main
+                sh 'npm run coverage || true'  // true main
             }
         }
 
@@ -43,7 +43,7 @@ pipeline {
             echo 'Pipeline finished'
         }
         success {
-            echo 'Pipeline succeeded!'   /// success
+            echo 'Pipeline succeeded!'   // success
         }
         failure {
             echo 'Pipeline failed!'
