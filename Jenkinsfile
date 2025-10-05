@@ -27,7 +27,7 @@ pipeline {
 
         stage('Generate Coverage Report') {
             steps {
-                sh 'npm run coverage || true'  // true main
+                sh 'npm run coverage || true'  
             }
         }
 
