@@ -43,7 +43,7 @@ pipeline {
             echo 'Pipeline finished'
         }
         success {
-            echo 'Pipeline succeeded!'   //suc
+            echo 'Pipeline succeeded!'   
         }
         failure {
             echo 'Pipeline failed!'
